@@ -8,4 +8,8 @@ module.exports = {
     DIST: __dirname + "/dist",
     PUBLIC: __dirname + "/public",
     SRC: __dirname + "/src",
+    TOKEN : {
+        expire: "24h",
+        secret: "secret?keylol"
+    }
 };
