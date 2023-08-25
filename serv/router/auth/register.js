@@ -77,13 +77,10 @@ const register = async (req, res) => {
 
 
     try {
-        const uleng = (await User.findAll()).length;
-
         await User.create({
             user_id: parseInt(uid.num(8)),
             username: username,
-            password: bcrypt.hashSync(password, 10),
-            acclevel: (uleng > 0 ? 1 : 2)
+            password: bcrypt.hashSync(password, 10)
         });
 
         return res.json({

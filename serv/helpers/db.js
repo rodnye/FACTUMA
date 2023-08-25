@@ -1,6 +1,7 @@
 const config = require("../../config.js");
 const { Sequelize, Model, DataTypes, Op } = require("sequelize");
 const UserModel = require("./models/user.js");
+const uid = require("./uid.js");
 
 /**********************
  * Starting Connection *
@@ -8,7 +9,7 @@ const UserModel = require("./models/user.js");
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: config.SERV + '/db/db.sqlite',
-    loggin: false
+    logging: false
 });
 
 (async () => {
@@ -24,7 +25,7 @@ const sequelize = new Sequelize({
  *********************/
 class User extends Model {
     getData() {
-        const rows = ["user_id", "username", ];
+        const rows = ["user_id", "username",];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -42,7 +43,7 @@ class User extends Model {
         let parsedObj = {};
         for (let o in obj) {
             if (this[o] == undefined) continue;
-            parsedObj[o] = (typeof(obj) === "object" ? JSON.stringify(obj[o]) : obj[o]);
+            parsedObj[o] = (typeof (obj) === "object" ? JSON.stringify(obj[o]) : obj[o]);
         }
         try {
             await this.update(parsedObj);
@@ -63,7 +64,25 @@ User.init(
 
 (async () => {
     await User.sync();
+    let admin = User.findOne({
+        where: {
+            username: "admin"
+        }
+    });
+    if (!admin) {
+        admin = await User.create({
+            user_id: uid.num(8),
+            username: "admin",
+            password: "admin"
+        });
+        if(admin) console.log("Cuenta de administracion creada...\n\nUser: admin\nPassword: admin\n\nPor favor cambie su contrasena para mejor proteccion en la configuracion de administracion.");
+        else{
+            console.log("Ocurrio un error , pongase en contacto con el administrador.");
+        }
+    }
 })();
+
+
 
 module.exports = {
     User,
