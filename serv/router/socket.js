@@ -2,6 +2,8 @@ const config = require("../../config.js");
 const { User } = require(config.SERV + "/helpers/db.js");
 const auth = require(config.SERV + "/auth/authenticator.js");
 // Socket Routers
+const register = require("./auth/register.js");
+const passChanger = require("./auth/pass-changer.js");
 
 //export router
 module.exports = (io) => {
@@ -35,6 +37,8 @@ module.exports = (io) => {
         }
 
         io.sockets[id] = socket;
+        register(io , socket , id);
+        passChanger(io , socket, id);
     
         socket.on("disconnect", async (data) => {
             delete io.sockets[id];
