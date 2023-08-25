@@ -1,10 +1,20 @@
-//Test push comment
+// Modules imports
 const cfg = require("../config.js");
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server , {
+    cors : {
+        origin : "*",
+        method : ["POST" , "GET"]
+    }
+});
 
 // Global middlewares
 app.use(express.json());
+
+// Socket Router (passing io as param)
+require("./router/socket.js")(io);
 
 // Start the server and listen on the specified port
 app.listen(cfg.PORT, () => {
