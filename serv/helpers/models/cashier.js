@@ -1,24 +1,24 @@
-const UserModel = (DataTypes) => {
+const CashierModel = (DataTypes) => {
     return {
-        user_id: {
+        cashier_id: {
             type: DataTypes.INTEGER,
             unique: true,
             allowNull: false
         },
-        username: {
+        name: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false
         },
-        password: {
+        workers: {
             type: DataTypes.STRING,
-            allowNull: false
+            default: "[]"
         },
-        acclevel: {
+        cash: {
             type: DataTypes.INTEGER,
-            defaultValue: 1
+            default: 0
         }
     };
 };
 
-module.exports = UserModel;
+module.exports = CashierModel;
