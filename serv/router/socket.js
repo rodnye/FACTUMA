@@ -1,6 +1,6 @@
 const config = require("../../config.js");
 const { User } = require(config.SERV + "/helpers/db.js");
-const auth = require(config.SERV + "/auth/authenticator.js");
+const auth = require("./auth/authenticator.js");
 // Socket Routers
 const register = require("./auth/register.js");
 const passChanger = require("./auth/pass-changer.js");
