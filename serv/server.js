@@ -20,14 +20,14 @@ app.use("/" , require("./router/router.js"))
 require("./router/socket.js")(io);
 
 // Start the server and listen on the specified port
-app.listen(cfg.PORT, () => {
+app.listen(config.PORT, () => {
     console.log("Running in port " + config.PORT);
 });
 
 //
 // Serve static pages
 //
-if (!cfg.isProduction) {
+if (!config.isProduction) {
     // Development mode - Use Webpack server for serving static files
     const webpackRouter = require('./webpack-router');
     app.use("/", webpackRouter);

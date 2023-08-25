@@ -7,7 +7,7 @@ const UserModel = require("./models/user.js");
  **********************/
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: config.DB + '/database.sqlite',
+    storage: config.SERV + '/db/db.sqlite',
     loggin: false
 });
 
