@@ -64,11 +64,12 @@ User.init(
 
 (async () => {
     await User.sync();
-    let admin = User.findOne({
+    let admin = await User.findOne({
         where: {
             username: "admin"
         }
     });
+  
     if (!admin) {
         admin = await User.create({
             user_id: uid.num(8),
