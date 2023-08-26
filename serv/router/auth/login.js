@@ -5,7 +5,7 @@ const {User} = require(config.SERV + "/helpers/db.js");
 
 /* function login
 * @Method : POST
-* @param req {body : {username , password , app_token}}
+* @param req {body : {username , password }}
 * @param res {}
 */
 
