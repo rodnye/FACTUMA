@@ -30,7 +30,7 @@ const sequelize = new Sequelize({
  *********************/
 class User extends Model {
     getData() {
-        const rows = ["user_id", "username" , "acclevel"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -74,15 +74,15 @@ User.init(
             username: "admin"
         }
     });
-  
+
     if (!admin) {
         admin = await User.create({
             user_id: uid.num(8),
             username: "admin",
             password: "admin"
         });
-        if(admin) console.log("Cuenta de administracion creada...\n\nUser: admin\nPassword: admin\n\nPor favor cambie su contrasena para mejor proteccion en la configuracion de administracion.");
-        else{
+        if (admin) console.log("Cuenta de administracion creada...\n\nUser: admin\nPassword: admin\n\nPor favor cambie su contrasena para mejor proteccion en la configuracion de administracion.");
+        else {
             console.log("Ocurrio un error , pongase en contacto con el administrador.");
         }
     }
@@ -94,7 +94,7 @@ User.init(
  *********************/
 class Item extends Model {
     getData() {
-        const rows = ["item_id", "name" , "category" , "pic" , "notes" , "price"];
+        const rows = ["item_id", "name", "category", "pic", "notes", "price"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -187,7 +187,7 @@ Category.init(
  *********************/
 class Cashier extends Model {
     getData() {
-        const rows = ["cashier_id", "name" , "cash"];
+        const rows = ["cashier_id", "name", "cash"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -280,7 +280,7 @@ Stock.init(
  *********************/
 class History extends Model {
     getData() {
-        const rows = ["cashier_id", "date" , "data"];
+        const rows = ["cashier_id", "date", "data"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
