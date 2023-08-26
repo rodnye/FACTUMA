@@ -10,10 +10,6 @@ const CashierModel = (DataTypes) => {
             unique: true,
             allowNull: false
         },
-        workers: {
-            type: DataTypes.STRING,
-            default: "[]"
-        },
         cash: {
             type: DataTypes.INTEGER,
             default: 0
