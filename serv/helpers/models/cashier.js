@@ -13,6 +13,10 @@ const CashierModel = (DataTypes) => {
         cash: {
             type: DataTypes.INTEGER,
             default: 0
+        },
+        tables: {
+            type: DataTypes.INTEGER,
+            default: 0
         }
     };
 };

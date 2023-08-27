@@ -7,6 +7,7 @@ const CashierModel = require("./models/cashier.js");
 const StockModel = require("./models/stock.js");
 const HistoryModel = require("./models/history.js");
 const uid = require("./uid.js");
+const OrderModel = require("./models/order.js");
 
 /**********************
  * Starting Connection *
@@ -319,6 +320,52 @@ History.init(
 
 (async () => {
     await History.sync();
+});
+
+/*********************
+ *  Order Model DB   *
+ *********************/
+class Order extends Model {
+    getData() {
+        const rows = ["cashier_id", "table", "items"];
+        let ret = {};
+        for (let row of rows) {
+            if (this[row]) {
+                try {
+                    ret[row] = JSON.parse(this[row]);
+                } catch (err) {
+                    ret[row] = this[row];
+                }
+            }
+        }
+        return ret;
+    }
+
+    async setData(obj) {
+        let parsedObj = {};
+        for (let o in obj) {
+            if (this[o] == undefined) continue;
+            parsedObj[o] = (typeof (obj) === "object" ? JSON.stringify(obj[o]) : obj[o]);
+        }
+        try {
+            await this.update(parsedObj);
+            return true;
+        } catch (err) {
+            console.err(err);
+            return false;
+        }
+    }
+}
+
+Order.init(
+    OrderModel(DataTypes),
+    {
+        sequelize
+    }
+);
+
+(async () => {
+    await Order.sync();
 });
 
 module.exports = {
