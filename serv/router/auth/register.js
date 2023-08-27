@@ -11,12 +11,12 @@ const register = async (io, socket, id) => {
 
         const admin = await User.findOne({
             where: {
-                username: "admin"
+                user_id: id
             }
         });
-        if (!admin || admin.user_id != id) return socket.emit("register", {
+        if (!admin || admin.acclevel <= 1) return socket.emit("register", {
             status: false,
-            data: "NO_PRIVILEGES"
+            data: {message: "NO_PRIVILEGES"}
         });
 
         try {
