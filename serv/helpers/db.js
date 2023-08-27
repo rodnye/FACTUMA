@@ -8,7 +8,7 @@ const StockModel = require("./models/stock.js");
 const HistoryModel = require("./models/history.js");
 const OrderModel = require("./models/order.js");
 const uid = require("./uid.js");
-
+const bcrypt = require("bcryptjs");
 
 /**********************
  * Starting Connection *
@@ -81,7 +81,7 @@ User.init(
         admin = await User.create({
             user_id: uid.num(8),
             username: "admin",
-            password: "admin"
+            password: bcrypt.hashSync("admin" , 10)
         });
         if (admin) console.log("Cuenta de administracion creada...\n\nUser: admin\nPassword: admin\n\nPor favor cambie su contrasena para mejor proteccion en la configuracion de administracion.");
         else {
