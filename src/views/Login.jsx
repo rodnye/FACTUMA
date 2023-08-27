@@ -5,89 +5,117 @@ import {
   TextField,
   Button,
   Card,
+  Alert,
 } from "ui";
+import CircularProgress from '@mui/material/CircularProgress'
+import http from "utils/http"
 
+
+/**
+ * View component 
+ */
 export default function LoginView({ show }) {
-  // display forms
-  const [displayLoginForm, setDisplayLoginForm] = useState(true);
-  const [displayRegisterForm, setDisplayRegisterForm] = useState(false);
+    // form values
+    const [userField, setUserField] = useState("");
+    const [passField, setPassField] = useState(""); 
+    
+    const [alertShown, setAlertShown] = useState(false); 
+    const [sendingLogin, setSendingLogin] = useState(false);
+    const [loginError, setLoginError] = useState(false);
+    const [loginMessage, setLoginMessage] = useState("Nada a pasado");
+    
+    
+    /**
+     * show alert
+     */
+    const showAlert = (time) => {
+        setAlertShown(true);
+        setTimeout(() => setAlertShown(false), time || 2000);
+    }
+    
+    /**
+     * LogIn the user
+     */
+    const sendLoginData = () => {
+        setSendingLogin(true);
+        
+        http.post({
+            url: "/auth/login",
+            body: {
+                username: userField,
+                password: passField,
+            }
+        })
+        .then(data => setTimeout(() => {
+            setSendingLogin(false);
+            if (data.status) {
+                setLoginError(false);
+                setLoginMessage("Autenticación realizada correctamente");
+            }
+            else {
+                setLoginError(data.data.message);
+                setLoginMessage(data.data.message);
+            }
+            
+            showAlert();
+        }, 5000));
+    }
 
-  // form values
-  const [nameField, setNameField] = useState("");
-  const [emailField, setEmailField] = useState("");
-  const [passField, setPassField] = useState("");
-  const [rpassField, setRPassField] = useState("");
-
-  // toggle Login and Register Form
-  const toggleForms = () => {
-    setDisplayLoginForm(!displayLoginForm);
-    setDisplayRegisterForm(!displayRegisterForm);
-  };
 
   return (
     <View
       show={show}
-      className="d-flex flex-column align-items-center justify-content-center"
+      className="d-flex flex-column justify-content-center"
     >
-     {displayLoginForm &&
-        <Card>
-          <p> Iniciar Sesión </p>
+        <Card className="mx-2">
+          <p className="fs-3"> Iniciar Sesión </p>
+          
           <TextField
-            label="Email"
-            type="email"
-            value={emailField}
-            onChange={(e) => setEmailField(e.target.value)}
+            label="Usuario"
+            value={userField}
+            disabled={sendingLogin}
+            error={
+                // error
+                !sendingLogin && 
+                ["WRONG_USER"].includes(loginError)
+            }
+            onChange={(e) => setUserField(e.target.value)}
           />
+          
           <TextField
             label="Contraseña"
             type="password"
+            disabled={sendingLogin}
+            error={
+                // error
+                !sendingLogin &&
+                ["WRONG_USER"].includes(loginError)
+            }
             value={passField}
             onChange={(e) => setPassField(e.target.value)}
           />
+          
+          {/** 
+            Submit Button with loading
+           **/}
           <div className="w-100 mt-2 d-flex justify-content-end">
-            <Button> Entrar </Button>
+            <Button 
+                type="submit"
+                disabled={sendingLogin}
+                onClick={() => sendLoginData()}
+            > 
+              Acceder {sendingLogin &&
+                <CircularProgress size="1rem"/>
+              }
+            </Button>
           </div>
         </Card>
-     }
-
-      {displayRegisterForm &&
-        <Card>
-          <p> Crear Cuenta </p>
-          <TextField
-            label="Nombre"
-            value={nameField}
-            onChange={(e) => setNameField(e.target.value)}
-          />
-          <TextField
-            label="Email"
-            type="email"
-            value={emailField}
-            onChange={(e) => setEmailField(e.target.value)}
-          />
-          <TextField
-            label="Contraseña"
-            type="password"
-            value={passField}
-            onChange={(e) => setPassField(e.target.value)}
-          />
-          <TextField
-            label="Confirmar contraseña"
-            type="password"
-            value={rpassField}
-            onChange={(e) => setRPassField(e.target.value)}
-          />
-          <div className="w-100 d-flex justify-content-end">
-            <Button> Crear </Button>
-          </div>
-        </Card>
-      }
-
-      <Button 
-        className="mt-1"
-        onClick={toggleForms}
-      >
-        {displayLoginForm ? "Crear Cuenta" : "Iniciar Sesión"}
-      </Button>
+        
+        <Alert 
+            className="m-3"
+            show={alertShown} 
+            type={loginError ? "error" : "success"}
+        > {loginMessage} </Alert>
     </View>
   );
 }
