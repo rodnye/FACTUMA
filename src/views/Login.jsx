@@ -3,11 +3,11 @@ import { useState } from "react";
 import {
   View,
   TextField,
+  CircularLoading,
   Button,
   Card,
   Alert,
-} from "ui";
-import CircularProgress from '@mui/material/CircularProgress'
+} from "ui"; 
 import http from "utils/http"
 
 
@@ -65,9 +65,9 @@ export default function LoginView({ show }) {
   return (
     <View
       show={show}
-      className="d-flex flex-column justify-content-center"
+      className="d-flex flex-column justify-content-center align-items-center"
     >
-        <Card className="mx-2">
+        <Card className="mx-2 px-5">
           <p className="fs-3"> Iniciar Sesión </p>
           
           <TextField
@@ -95,6 +95,7 @@ export default function LoginView({ show }) {
             onChange={(e) => setPassField(e.target.value)}
           />
           
+          
           {/** 
             Submit Button with loading
            **/}
@@ -104,11 +105,17 @@ export default function LoginView({ show }) {
                 disabled={sendingLogin}
                 onClick={() => sendLoginData()}
             > 
-              Acceder {sendingLogin &&
-                <CircularProgress size="1rem"/>
+              Acceder 
+              {sendingLogin && 
+                <CircularLoading
+                  color="inherit" 
+                  className="ms-1" 
+                  size="1rem"
+                />
               }
             </Button>
           </div>
+          
         </Card>
         
         <Alert 
