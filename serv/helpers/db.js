@@ -6,8 +6,9 @@ const CategoryModel = require("./models/category.js");
 const CashierModel = require("./models/cashier.js");
 const StockModel = require("./models/stock.js");
 const HistoryModel = require("./models/history.js");
-const uid = require("./uid.js");
 const OrderModel = require("./models/order.js");
+const uid = require("./uid.js");
+
 
 /**********************
  * Starting Connection *
@@ -375,5 +376,6 @@ module.exports = {
     Cashier,
     Stock,
     History,
+    Order,
     Op
 }
