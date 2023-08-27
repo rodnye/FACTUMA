@@ -10,7 +10,11 @@ const OrderModel = (DataTypes) => {
         },
         items: {
             type: DataTypes.STRING,
-            default: "[]"
+            default: "{}"
+        },
+        notes: {
+            type: DataTypes.STRING,
+            default: ""
         }
     };
 };

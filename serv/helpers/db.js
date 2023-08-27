@@ -327,7 +327,7 @@ History.init(
  *********************/
 class Order extends Model {
     getData() {
-        const rows = ["cashier_id", "table", "items"];
+        const rows = ["cashier_id", "table", "items" , "notes"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
