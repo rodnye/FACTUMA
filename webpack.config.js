@@ -25,7 +25,8 @@ module.exports = {
     ],
     resolve: {
         alias: {
-            "ui": cfg.SRC + "/ui/ui.js"
+            "ui": cfg.SRC + "/ui/ui.js",
+            "utils": cfg.SRC + "/utils",
         },
         extensions: ["*", ".js", ".jsx"]
     },
