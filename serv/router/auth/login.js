@@ -1,7 +1,7 @@
 const config = require("../../../config.js");
 const authenticator = require("./authenticator.js");
 const bcrypt = require("bcryptjs");
-const {User} = require(config.SERV + "/helpers/db.js");
+const { User } = require(config.SERV + "/helpers/db.js");
 
 /* function login
 * @Method : POST
@@ -10,9 +10,9 @@ const {User} = require(config.SERV + "/helpers/db.js");
 */
 
 const login = async (req, res) => {
-    if (!req.body) return res.json({status : false , data : "NO_DATA"});
+    if (!req.body) return res.json({ status: false, data: { message: "NO_DATA" } });
     let username,
-    password;
+        password;
     try {
         const body = req.body;
         username = body.username;
@@ -20,29 +20,31 @@ const login = async (req, res) => {
     } catch (err) {
         return res.json({
             status: false,
-            data: "DATA_ERROR",
-            error: err
+            data: {
+                message: "DATA_ERROR",
+                error: err
+            }
         });
     }
 
     const account = await User.findOne({
-        where : {
-            username : username
+        where: {
+            username: username
         }
     });
 
     if (!account) {
         return res.json({
             status: false,
-            data: "WRONG_USER"
+            data: { message: "WRONG_USER" }
         });
     }
-    
+
 
     if (!bcrypt.compareSync(password, account.password)) {
         return res.json({
             status: false,
-            data: "WRONG_USER"
+            data: { message: "WRONG_USER" }
         });
     }
 
