@@ -7,7 +7,7 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 module.exports = {
     entry: path.join(cfg.SRC, 'index.js'),
-    mode: isProduction ? "production" : "development",
+    mode: process.env.NODE_ENV,
     output: {
         path: cfg.DIST,
         filename: "bundle.js",
@@ -27,6 +27,9 @@ module.exports = {
         alias: {
             "ui": cfg.SRC + "/ui/ui.js",
             "utils": cfg.SRC + "/utils",
+            "eruda": isProduction ? 
+                cfg.SRC + "/utils/__eruda-fake.js" :
+                "eruda",
         },
         extensions: ["*", ".js", ".jsx"]
     },
