@@ -14,7 +14,7 @@ const register = async (io, socket, id) => {
                 username: "admin"
             }
         });
-        if(!admin || admin.user_id != id) return socket.emit("register" , {
+        if (!admin || admin.user_id != id) return socket.emit("register", {
             status: false,
             data: "NO_PRIVILEGES"
         });
@@ -25,55 +25,57 @@ const register = async (io, socket, id) => {
             rpassword = (data.rpassword ? data.rpassword : undefined);
         } catch (err) {
             return socket.emit("register", {
-                status: false, data: "DATA_ERROR",
-                error: err
+                status: false, data: {
+                    message: "DATA_ERROR",
+                    error: err
+                }
             })
         }
 
         if (!username) {
             return socket.emit("register", {
                 status: false,
-                data: "EMPTY_USER"
+                data: { message: "EMPTY_USER" }
             });
         }
 
         if (username.length < 5) {
             return socket.emit("register", {
                 status: false,
-                data: "USER_LENGTH"
+                data: { message: "USER_LENGTH" }
             })
         }
 
         else if (!password) {
             return socket.emit("register", {
                 status: false,
-                data: "EMPTY_PASS"
+                data: { message: "EMPTY_PASS" }
             });
         }
 
         if (await User.findOne({
             where: { username: username }
-        })) return socket.emit("register", { status: false, data: "ACC_USE" });
+        })) return socket.emit("register", { status: false, data: { message: "ACC_USE" } });
 
         const char = /^[a-zA-Z0-9]+$/;
         if (!char.test(username)) {
             return socket.emit("register", {
                 status: false,
-                data: "USERNAME_BAD_CHAR"
+                data: { message: "USERNAME_BAD_CHAR" }
             });
         }
 
         if (password.length < 8) {
             return socket.emit("register", {
                 status: false,
-                data: "PASS_LENGTH"
+                data: { message: "PASS_LENGTH" }
             });
         }
 
         if (password != rpassword) {
             return socket.emit("register", {
                 status: false,
-                data: "PASS_NOT_MATCH"
+                data: { message: "PASS_NOT_MATCH" }
             });
         }
 
@@ -87,15 +89,17 @@ const register = async (io, socket, id) => {
 
             return socket.emit("register", {
                 status: true,
-                data: "REGISTERED"
+                data: { message: "REGISTERED" }
             });
 
         } catch (err) {
             console.log(err);
             return socket.emit("register", {
                 status: false,
-                data: "DATA_ERROR",
-                error: err
+                data: {
+                    message: "DATA_ERROR",
+                    error: err
+                }
             });
 
         }
