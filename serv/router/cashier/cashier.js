@@ -68,6 +68,12 @@ const cashierList = async (socket) => {
     return socket.emit("cashier-list", cashier);
 };
 
+const cashierListRest = async (req , res) => {
+    const cashiers = await Cashier.findAll();
+
+    return res.json(cashier);
+};
+
 const cashierMakePayment = async (io, socket, id, data) => {
     //TODO
 };
@@ -83,5 +89,6 @@ module.exports = {
     cashierData,
     cashierList,
     cashierMakePayment,
-    cashierReceivePayment
+    cashierReceivePayment,
+    cashierListRest
 };
