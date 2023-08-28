@@ -1,44 +1,38 @@
-
 import { useState } from "react";
 import {
-  View,
-  TextField,
-  CircularLoading,
-  Button,
-  Card,
-  Alert,
-} from "ui"; 
-import http from "utils/http"
+    View,
+    TextField,
+    CircularProgress,
+    Button,
+    Card,
+    Alert,
+} from "ui";
+import http from "utils/http";
 
 
-/**
- * View component 
- */
 export default function LoginView({ show }) {
-    // form values
+    // Form values
     const [userField, setUserField] = useState("");
-    const [passField, setPassField] = useState(""); 
+    const [passField, setPassField] = useState("");
     
-    const [alertShown, setAlertShown] = useState(false); 
-    const [sendingLogin, setSendingLogin] = useState(false);
+    // Form status
+    const [alertShown, setAlertShown] = useState(false);
+    const [loginSending, setLoginSending] = useState(false);
     const [loginError, setLoginError] = useState(false);
-    const [loginMessage, setLoginMessage] = useState("Nada a pasado");
+    const [loginMessage, setLoginMessage] = useState("Nothing has happened");
     
     
-    /**
-     * show alert
-     */
+    // Function to show alert
     const showAlert = (time) => {
         setAlertShown(true);
         setTimeout(() => setAlertShown(false), time || 2000);
     }
     
-    /**
-     * LogIn the user
-     */
+    
+    // Function to log in the user
     const sendLoginData = () => {
-        setSendingLogin(true);
-        
+        setLoginSending(true);
+
         http.post({
             url: "/auth/login",
             body: {
@@ -47,10 +41,10 @@ export default function LoginView({ show }) {
             }
         })
         .then(data => setTimeout(() => {
-            setSendingLogin(false);
+            setLoginSending(false);
             if (data.status) {
                 setLoginError(false);
-                setLoginMessage("Autenticación realizada correctamente");
+                setLoginMessage("Autenticación existosa");
             }
             else {
                 setLoginError(data.data.message);
@@ -62,67 +56,65 @@ export default function LoginView({ show }) {
     }
 
 
-  return (
-    <View
-      show={show}
-      className="d-flex flex-column justify-content-center align-items-center"
-    >
-        <Card className="mx-2 px-5">
-          <p className="fs-3"> Iniciar Sesión </p>
-          
-          <TextField
-            label="Usuario"
-            value={userField}
-            disabled={sendingLogin}
-            error={
-                // error
-                !sendingLogin && 
-                ["WRONG_USER"].includes(loginError)
-            }
-            onChange={(e) => setUserField(e.target.value)}
-          />
-          
-          <TextField
-            label="Contraseña"
-            type="password"
-            disabled={sendingLogin}
-            error={
-                // error
-                !sendingLogin &&
-                ["WRONG_USER"].includes(loginError)
-            }
-            value={passField}
-            onChange={(e) => setPassField(e.target.value)}
-          />
-          
-          
-          {/** 
-            Submit Button with loading
-           **/}
-          <div className="w-100 mt-2 d-flex justify-content-end">
-            <Button 
-                type="submit"
-                disabled={sendingLogin}
-                onClick={() => sendLoginData()}
-            > 
-              Acceder 
-              {sendingLogin && 
-                <CircularLoading
-                  color="inherit" 
-                  className="ms-1" 
-                  size="1rem"
+    return (
+        <View
+            show={show}
+            className="d-flex flex-column justify-content-center align-items-center"
+        >
+            <Card className="mx-2 px-5">
+                <p className="fs-3"> Iniciar Sesión </p>
+                
+                
+                <TextField
+                    label="Usuario"
+                    value={userField}
+                    disabled={loginSending}
+                    error={
+                        !loginSending &&
+                        ["WRONG_USER"].includes(loginError)
+                    }
+                    onChange={(e) => setUserField(e.target.value)}
                 />
-              }
-            </Button>
-          </div>
-          
-        </Card>
-        
-        <Alert 
-            className="m-3"
-            show={alertShown} 
-            type={loginError ? "error" : "success"}
-        > {loginMessage} </Alert>
-    </View>
-  );
+                
+                
+                <TextField
+                    label="Contraseña"
+                    type="password"
+                    disabled={loginSending}
+                    error={
+                        !loginSending &&
+                        ["WRONG_USER"].includes(loginError)
+                    }
+                    value={passField}
+                    onChange={(e) => setPassField(e.target.value)}
+                />
+                
+                
+                <div className="w-100 mt-2 d-flex justify-content-end">
+                    <Button
+                        type="submit"
+                        disabled={loginSending}
+                        onClick={() => sendLoginData()}
+                    >
+                        Acceder
+                        {loginSending &&
+                            <CircularProgress
+                                color="inherit"
+                                className="ms-1"
+                                size="1rem"
+                            />
+                        }
+                    </Button>
+                </div>
+            </Card>
+            
+            
+            <Alert
+                className="m-3"
+                show={alertShown}
+                type={loginError ? "error" : "success"}
+            > {loginMessage} </Alert>
+            
+        </View>
+    );
 }
