@@ -81,7 +81,8 @@ User.init(
         admin = await User.create({
             user_id: uid.num(8),
             username: "admin",
-            password: bcrypt.hashSync("admin", 10)
+            password: bcrypt.hashSync("admin", 10),
+            acclevel: 2
         });
         if (admin) console.log("Cuenta de administracion creada...\n\nUser: admin\nPassword: admin\n\nPor favor cambie su contrasena para mejor proteccion en la configuracion de administracion.");
         else {
@@ -92,7 +93,7 @@ User.init(
 
 
 /*********************
- *   User Model DB   *
+ *   Item Model DB   *
  *********************/
 class Item extends Model {
     getData() {
@@ -138,7 +139,7 @@ Item.init(
 })();
 
 /*********************
- *   User Model DB   *
+ *   Category Model DB   *
  *********************/
 class Category extends Model {
     getData() {
@@ -184,7 +185,7 @@ Category.init(
 })();
 
 /*********************
- *   User Model DB   *
+ *   Cashier Model DB   *
  *********************/
 class Cashier extends Model {
     getData() {
@@ -230,7 +231,7 @@ Cashier.init(
 })();
 
 /*********************
- *   User Model DB   *
+ *   Stock Model DB   *
  *********************/
 class Stock extends Model {
     getData() {
@@ -276,7 +277,7 @@ Stock.init(
 })();
 
 /*********************
- *   User Model DB   *
+ *   History Model DB   *
  *********************/
 class History extends Model {
     getData() {
@@ -322,7 +323,7 @@ History.init(
 })();
 
 /*********************
- *   User Model DB   *
+ *   Order Model DB   *
  *********************/
 class Order extends Model {
     getData() {
