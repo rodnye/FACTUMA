@@ -71,7 +71,7 @@ const cashierList = async (socket) => {
 const cashierListRest = async (req , res) => {
     const cashiers = await Cashier.findAll();
 
-    return res.json(cashier);
+    return res.json(cashiers);
 };
 
 const cashierMakePayment = async (io, socket, id, data) => {

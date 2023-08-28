@@ -15,13 +15,12 @@ const bcrypt = require("bcryptjs");
  **********************/
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: config.SERV + '/db/db.sqlite',
-    logging: false
+    storage: config.SERV + '/db/db.sqlite'
 });
 
 (async () => {
     try {
-        sequelize.authenticate();
+        await sequelize.authenticate();
     } catch (err) {
         throw new Error("" + err)
     }
@@ -71,6 +70,7 @@ User.init(
 
 (async () => {
     await User.sync();
+
     let admin = await User.findOne({
         where: {
             username: "admin"
@@ -81,7 +81,7 @@ User.init(
         admin = await User.create({
             user_id: uid.num(8),
             username: "admin",
-            password: bcrypt.hashSync("admin" , 10)
+            password: bcrypt.hashSync("admin", 10)
         });
         if (admin) console.log("Cuenta de administracion creada...\n\nUser: admin\nPassword: admin\n\nPor favor cambie su contrasena para mejor proteccion en la configuracion de administracion.");
         else {
@@ -92,11 +92,11 @@ User.init(
 
 
 /*********************
- *   Item Model DB   *
+ *   User Model DB   *
  *********************/
 class Item extends Model {
     getData() {
-        const rows = ["item_id", "name", "category", "pic", "notes", "price"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -135,15 +135,14 @@ Item.init(
 
 (async () => {
     await Item.sync();
-});
-
+})();
 
 /*********************
- * Category Model DB *
+ *   User Model DB   *
  *********************/
 class Category extends Model {
     getData() {
-        const rows = ["name"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -182,14 +181,14 @@ Category.init(
 
 (async () => {
     await Category.sync();
-});
+})();
 
 /*********************
- * Cashier Model DB  *
+ *   User Model DB   *
  *********************/
 class Cashier extends Model {
     getData() {
-        const rows = ["cashier_id", "name", "cash"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -228,15 +227,14 @@ Cashier.init(
 
 (async () => {
     await Cashier.sync();
-});
-
+})();
 
 /*********************
- *  Stock Model DB   *
+ *   User Model DB   *
  *********************/
 class Stock extends Model {
     getData() {
-        const rows = ["item_id", "quantity"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -275,14 +273,14 @@ Stock.init(
 
 (async () => {
     await Stock.sync();
-});
+})();
 
 /*********************
- * History Model DB  *
+ *   User Model DB   *
  *********************/
 class History extends Model {
     getData() {
-        const rows = ["cashier_id", "date", "data"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -321,14 +319,14 @@ History.init(
 
 (async () => {
     await History.sync();
-});
+})();
 
 /*********************
- *  Order Model DB   *
+ *   User Model DB   *
  *********************/
 class Order extends Model {
     getData() {
-        const rows = ["cashier_id", "table", "items" , "notes"];
+        const rows = ["user_id", "username", "acclevel"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -367,7 +365,7 @@ Order.init(
 
 (async () => {
     await Order.sync();
-});
+})();
 
 module.exports = {
     User,

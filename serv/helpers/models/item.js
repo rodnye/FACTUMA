@@ -15,8 +15,7 @@ const ItemModel = (DataTypes) => {
             default: "others"
         },
         notes: {
-            type: DataTypes.STRING,
-            allowNull: true
+            type: DataTypes.STRING
         },
         pic: {
             type: DataTypes.STRING,
