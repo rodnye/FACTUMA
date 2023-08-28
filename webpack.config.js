@@ -44,7 +44,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
-                test: /\.mp3$/i,
+                test: /\.otf$/i,
                 type: 'asset',
             },
         ],
