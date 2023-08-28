@@ -38,7 +38,7 @@ export default function LoginView({ show }) {
             setCashierList(data.data);
         })
     }
-    requestCashierList();
+    //requestCashierList();
     
     
     // Function to log in the user
@@ -74,7 +74,10 @@ export default function LoginView({ show }) {
             show={show}
             className="d-flex flex-column justify-content-center align-items-center"
         >
-            <Card className="mx-2 px-5">
+            <Card 
+                className="mx-2 px-5"
+                sx={{maxWidth: ""}}
+             >
                 <p className="fs-3"> Iniciar Sesión </p>
                 
                 
