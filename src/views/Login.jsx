@@ -2,7 +2,8 @@ import { useState } from "react";
 import {
     View,
     TextField,
-    CircularProgress,
+    SelectField,
+    CircularLoading,
     Button,
     Card,
     Alert,
@@ -14,6 +15,8 @@ export default function LoginView({ show }) {
     // Form values
     const [userField, setUserField] = useState("");
     const [passField, setPassField] = useState("");
+    const [cashierField, setCashierField] = useState("");
+    const [cashierList, setCashierList] = useState([]);
     
     // Form status
     const [alertShown, setAlertShown] = useState(false);
@@ -29,6 +32,15 @@ export default function LoginView({ show }) {
     }
     
     
+    // Function to get cashier list
+    const requestCashierList = () => {
+        http.get("/cashierList").then(data => {
+            setCashierList(data.data);
+        })
+    }
+    requestCashierList();
+    
+    
     // Function to log in the user
     const sendLoginData = () => {
         setLoginSending(true);
@@ -38,6 +50,7 @@ export default function LoginView({ show }) {
             body: {
                 username: userField,
                 password: passField,
+                cashier: cashierField,
             }
         })
         .then(data => setTimeout(() => {
@@ -90,6 +103,15 @@ export default function LoginView({ show }) {
                 />
                 
                 
+                <SelectField
+                    label="Cajero"
+                    disabled={loginSending}
+                    value={cashierField}
+                    onChange={(e) => setCashierField(e.target.value)}
+                    list={cashierList}
+                />
+                
+                
                 <div className="w-100 mt-2 d-flex justify-content-end">
                     <Button
                         type="submit"
@@ -98,7 +120,7 @@ export default function LoginView({ show }) {
                     >
                         Acceder
                         {loginSending &&
-                            <CircularProgress
+                            <CircularLoading
                                 color="inherit"
                                 className="ms-1"
                                 size="1rem"
