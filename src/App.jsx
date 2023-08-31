@@ -1,7 +1,7 @@
 
 import { createContext, useState } from 'react'
-import HomeView from './views/Home'
-import LoginView from './views/Login'
+import HomeView from './views/Home/Home'
+import LoginView from './views/Login/Login'
 
 
 // Application 

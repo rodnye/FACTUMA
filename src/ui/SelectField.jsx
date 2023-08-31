@@ -6,9 +6,9 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
 
-export default function SelectField ({label, disabled, className, value, error, list, onChange}) {
+export default function SelectField ({label, disabled, value, error, list, onChange}) {
     return (
-        <FormControl className={className} fullWidth>
+        <FormControl className="m-1" fullWidth>
             <InputLabel 
                 id="select-label"
                 error={error}
