@@ -31,7 +31,7 @@ const sequelize = new Sequelize({
  *********************/
 class User extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["user_id", "username", "acclevel" , "allowedCashiers"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -97,7 +97,7 @@ User.init(
  *********************/
 class Item extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["item_id", "name", "category" , "notes" , "pic" , "price"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -143,7 +143,7 @@ Item.init(
  *********************/
 class Category extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["name"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -182,6 +182,18 @@ Category.init(
 
 (async () => {
     await Category.sync();
+
+    let category = await Category.findOne({
+        where: {
+            name: "others"
+        }
+    });
+
+    if (!category) {
+        category = await Category.create({
+            name: "others"
+        });
+    }
 })();
 
 /*********************
@@ -189,7 +201,7 @@ Category.init(
  *********************/
 class Cashier extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["cashier_id", "name", "cash" , "tables"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -235,7 +247,7 @@ Cashier.init(
  *********************/
 class Stock extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["item_id", "quantity"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {

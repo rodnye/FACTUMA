@@ -14,6 +14,10 @@ const UserModel = (DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        allowedCashiers: {
+            type: DataTypes.STRING,
+            default: "[]"
+        },
         acclevel: {
             type: DataTypes.INTEGER,
             defaultValue: 1
