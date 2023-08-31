@@ -293,7 +293,7 @@ Stock.init(
  *********************/
 class History extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["cashier_id", "date", "data"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
@@ -339,7 +339,7 @@ History.init(
  *********************/
 class Order extends Model {
     getData() {
-        const rows = ["user_id", "username", "acclevel"];
+        const rows = ["cashier_id", "table", "items" , "notes"];
         let ret = {};
         for (let row of rows) {
             if (this[row]) {
